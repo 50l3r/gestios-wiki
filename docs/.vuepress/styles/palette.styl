@@ -4,22 +4,56 @@
 $accentColor = #1b55e3
 
 h1{
-    color: #1b55e3
+    color: $accentColor;
+}
+
+.site-name{
+	font-family: Rubik
 }
 
 h1,h2,h3,h4,h5 {
     font-family: Rubik;
-    font-weight: 300;
 }
 
 body{
 	font-family: Montserrat;
 }
 
+// TABLAS
 table td{
 	font-size: 14px;
 }
 
 table tr>td:first-child{
 	font-weight: bold;
+}
+
+table {
+    width: 100%;
+    max-width: 100%;
+	min-width: 100%;
+	table-layout: fixed;
+}
+
+td:nth-child(1) { width: 10%; }
+td:nth-child(2) { width: 90%; }
+
+
+// LISTAS
+ul li ul li ul li {
+	padding-left: 15px;
+}
+
+.list-unstyle ul{
+	list-style: none;
+	padding-left: 0;
+}
+
+.list-unstyle ul li{
+	display: flex;
+	align-items: center;
+}
+
+.list-unstyle ul li>*{
+	margin-right: 10px;
 }

@@ -1,4 +1,4 @@
-# Configuración
+# 🔧 Configuración
 
 Todos los archivos de configuración estan alojados en la carpeta ```./src/config/```
 
@@ -6,7 +6,7 @@ Desde estos podremos configurar todo lo relacionado con el proyecto. Rutas, menu
 
 ## Menú de navegación
 
-**Ruta del archivo: ```./src/config/menu.js```**
+📁 **Ruta del archivo: ```./src/config/menu.js```**
 
 Este fichero nos permite definir el menu de navegación del panel de administración:
 
@@ -54,32 +54,32 @@ A continuación pasamos a relatar los parametros:
 
 |Propiedad  |Descripcion  |Tipo  |
 |---------|---------|---------|
-|category     | Define si el item es una categoria o un menú | ```Boleano```        |
-|title     | Nombre del item        | ```String```        |
-|key     | Clave unica del menú        | ```String```        |
-|icon     | Icono de FontAwesome         | ```Array```        |
-|url     | Parámetros de [```router-link```](https://router.vuejs.org/api/#router-link)        | ```Objeto```        |
-|auth     | Parámetros de [autenticación](#propiedad)        | ```Objeto```        |
-|children     | Array con menús descendentes de este        | ```Array```        |
+|category     | Define si el item es una categoria o un menú | ```Boleano``` |
+|title     | Nombre del item        | ```String``` |
+|key     | Clave unica del menú        | ```String``` |
+|icon     | Icono de FontAwesome         | ```Array``` |
+|url     | Parámetros de [```router-link```](https://router.vuejs.org/api/#router-link)        | ```Objeto``` |
+|auth     | Parámetros de [autenticación](#propiedad)        | ```Objeto``` |
+|children     | Array con menús descendentes de este        | ```Array``` |
 
-### Propiedad <Badge text="auth" />
+#### Propiedad <Badge text="auth" />
 
 Desde aquí podemos definir si un usuario tiene acceso visual a dicho elemento, en base a una lista de roles definidos. Es posible precisar si el usuario necesita disponer de todos los permisos necesarios o por el contrario solo de uno.
 
-::: warning NOTA
+::: warning 🧠 Debes saber que...
 Recuerda que la reestricción de permisos que se aplica solo afecta a la visualización del menú. Para impedir que un usuario acceda a una ruta en concreta es necesario definirlo también en la configuración de las rutas
 :::
 
 
 |Propiedad  |Descripcion  |Tipo  |
 |---------|---------|---------|
-|strict     | Fuerza la posesión de todos los roles especificados        | ```Boleano```        |
-|roles     | Listado de roles necesarios para que el menú sea accesible        | ```Array```        |
+|strict     | Fuerza la posesión de todos los roles especificados        | ```Boleano``` |
+|roles     | Listado de roles necesarios para que el menú sea accesible        | ```Array``` |
 
 
 ## Rutas de navegación
 
-**Ruta del archivo: ```./src/config/router.js```**
+📁 **Ruta del archivo: ```./src/config/router.js```**
 
 Desde aquí podremos definir todas las rutas del aplicativo.
 ``` js
@@ -135,31 +135,43 @@ export default [
 
 La configuración de estas se define en la documentación de [Vue Router](https://router.vuejs.org/guide/essentials/named-routes.html) aunque pasaremos a explicar algunos parametros añadidos que son necesarios
 
-|Propiedad  |Descripcion  |Tipo  |
-|---------|---------|---------|
-|name **\***     | Nombre único de la página | ```String```        |
-|path  **\***    | Ruta de la página | ```String```        |
-|redirect    | Ruta de la página a redirigir <small>*(Si se precisa)*</small> | ```String```        |
-|component  **\***    | Componente que cargará la página | ```Componente Vue```        |
-|children     | Array con páginas descendentes de esta        | ```Array```        |
-|meta  **\***    | Información adicional de cada página  | ```Componente Vue```        |
+|Propiedad |Descripcion  |Tipo  |Necesario  |
+|---------|---------|---------|---------|
+|name | Nombre único de la página | ```String``` |<Badge text="Necesario" type="error" /> |
+|path | Ruta de la página | ```String``` |<Badge text="Necesario" type="error" /> |
+|redirect | Ruta de la página a redirigir <small>*(Si se precisa)*</small> | ```String``` | |
+|component| Componente que cargará la página | ```Componente``` | <Badge text="Necesario" type="error" /> |
+|children | Array con páginas descendentes de esta        | ```Array``` | |
+|[meta](#propiedad-2) | Información adicional de cada página  | ```Componente``` | <Badge text="Necesario" type="error" /> |
 
-### Propiedad <Badge text="meta" />
+#### Propiedad <Badge text="meta" />
 
 En esta propiedad definimos muchos aspectos de la página en concreto que vitaminan cada vista que definimos:
 
 |Propiedad  |Descripcion  |Tipo  |
 |---------|---------|---------|
-|title     | Título de la página para los breadcrumbs | ```String```        |
-|icon     | Icono FontAwesome para los breadcrumbs | ```Array```        |
-|auth     | Autenticación necesaria para la vista. ```true/false``` o [Auth](#propiedad) | ```Boolean / Auth```        |
-|topbar.buttons     | Array de botones para los breadcrumbs | ```Objecto```        |
+|title     | Título de la página para los breadcrumbs | ```String``` |
+|icon     | Icono FontAwesome para los breadcrumbs | ```Array``` |
+|auth     | Autenticación necesaria para la vista. ```true/false``` o [Auth](#propiedad) | ```Boolean / Auth``` |
+|topbar.buttons     | Array de botones para los breadcrumbs | ```Objecto``` |
 
 ## Configuraciones adicionales
 
-**Ruta del archivo: ```./src/config/settings.js```**
+📁 **Ruta del archivo: ```./src/config/settings.js```**
 
 
 Cada proyecto tiene la posibilidad de definir una serie de funcionalidades tanto visuales como funcionales en este apartado:
 
-<<< https://github.com/50l3r/gestios-vue-framework/blob/master/src/config/settings.js
+|Propiedad  |Descripcion  |Tipo  |
+|---------|---------|---------|
+|slug     | Permalink del proyecto | ```String``` |
+|name     | Nombre visual del Proyecto | ```String``` |
+|version     | Version del aplicativo | ```Number|String``` |
+|globalSearch     | Activa en el topbar la búsqueda global | ```Boolean``` |
+|config     | Activa el menú de configuracion personalizada | ```Boolean``` |
+|icon     | Icono FontAwesome para el proyecto | ```Array``` |
+|keepalive     | Componentes que van a ser cacheados | ```Array``` |
+
+::: warning 🧠 Debes saber que...
+Todos los parámetros son obligatorios
+:::

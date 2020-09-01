@@ -1,4 +1,4 @@
-# Estructura de carpetas
+# 📁 Estructura de carpetas
 
 Te enumeramos la principal estructura de ficheros y carpetas del framework. Los archivos de linting y estilizado de código como ```.eslint``` o ```.editorconfig``` no se enumeran
 
@@ -27,24 +27,25 @@ Te enumeramos la principal estructura de ficheros y carpetas del framework. Los 
 
 
 
-::: warning NOTA
+::: warning 🧠 Debes saber que...
 Se recomienda no modificar los elementos marcados con una 🔥
 :::
 
+## 📁 src
 - ```./express.js``` 🔥 Miniservidor express local para desarrollo
 - ```./dev.js``` 🔥 Script para levantar servidor de desarrollo y compilacion automatica
-- ```./src/main.js``` 🔥 Elementos visuales del menu de navegación
-- ```./src/bg.vue``` Elementos visuales del menu de navegación
+- ```./src/main.js``` 🔥 Script inicial del proyecto
+- ```./src/bg.vue``` Componente VUE que se ejecuta en segundo plano
 
-### 📁 config
+## 📁 src/config
 - ```./src/config/menu.js``` Elementos visuales del menu de navegación
 - ```./src/config/router.js``` Rutas del proyecto
 - ```./src/config/settings.js``` Configuraciones del proyecto
 
-### 📁 store
+## 📁 src/store
 - ```./src/store/modules/*.js``` Módulos de [Vuex](https://vuex.vuejs.org/guide/modules.html). *Se autoimportan al crear el fichero.*
 - ```./src/store/index.js``` Carga y definición de tipo de storage para cada módulo
 
-### 📁 views
+## 📁 src/views
 - ```./src/views/*.vue``` Componentes del proyecto
 - ```./src/views/_config.vue``` Página de configuración del proyecto

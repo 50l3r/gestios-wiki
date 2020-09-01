@@ -1,4 +1,4 @@
-# Primeros pasos
+# 👶 Primeros pasos
 
 ## 📦 Requisitos
 - [Node.js 10+](https://nodejs.org/en/)
