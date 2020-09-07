@@ -1,13 +1,7 @@
 {
-	"files.exclude": {
-		".temp": true,
-		".vscode": true,
-		"node_modules": true,
-		".editorconfig": true,
-		"package-lock.json": true,
-		"docs/.vuepress/theme": true
-	},
-	"search.exclude": {
-		"node_modules": true
-	}
+  "files.exclude": {
+    ".nuxt": true,
+    ".vscode": true,
+    "node_modules": true
+  }
 }

@@ -1,0 +1,75 @@
+@import './_antd.less';
+@import './_code.less';
+@import './_container.less';
+@import './_helpers.less';
+@import './_icon.less';
+@import './_list.less';
+@import './_table.less';
+@import './_typography.less';
+
+
+:root {
+	--primary: @primary-color;
+	--shadow-1-down: @shadow-1-down;
+	--border-color-base: @border-color-base;
+	--anchor-border-color: @anchor-border-color;
+}
+
+
+.ant-alert{
+	border-right: 0;
+	border-top: 0;
+	border-bottom: 0;
+	margin: 1em 0;
+	border-width: 5px !important;
+	border-radius: 0;
+}
+
+.ant-alert-message{
+	font-weight: bold;
+	font-family: Rubik;
+	text-transform: uppercase;
+}
+
+.ant-alert-description p:last-child{
+	margin-bottom: 0;
+}
+
+.ant-alert-error {
+	background: #FFE6E6;
+	border-color: #CC0000;
+
+	.ant-alert-message{
+		color: #900;
+	}
+
+	.ant-alert-description p{
+		color: #4d0000;
+	}
+}
+
+.ant-alert-info {
+	background: #282C34;
+	border-color: #42b983;
+
+	.ant-alert-message{
+		color: white;
+	}
+
+	.ant-alert-description p{
+		color: white;
+	}
+}
+
+.ant-alert-warning {
+	background: #FFF7D0;
+	border-color: #E7C000;
+
+	.ant-alert-message{
+		color: #b29400;
+	}
+
+	.ant-alert-description p{
+		color: #6b5900;
+	}
+}
