@@ -1,26 +1,30 @@
 <template>
 	<div>
 		<nuxt-content :document="post" />
+		<pagination />
 	</div>
 </template>
 
 <script>
 export default {
-	layout: 'wiki',
-	async asyncData({ $content, params }) {
+	async asyncData({ $content, params, error }) {
 		try {
 			const slug = params.slug !== undefined ? params.slug : 'README';
-			const post = await $content(`framework/${params.folder1}`, slug).fetch();
+			let post = await $content(`framework/${params.folder1}`, slug).fetch();
 
-			if (Array.isArray(post)) {
-				return { post: post[0] };
-			}
+			if (Array.isArray(post)) post = post[0];
 
-			return { post };
+			const title = post.body.children[0].children[1].value || '';
+			return { post, title: `${title} - GestiOS Framework Wiki` };
 		} catch (err) {
-			console.debug(err);
+			error({ statusCode: 404, message: 'Página no encontrada' });
 			return false;
 		}
+	},
+	head() {
+		return {
+			title: this.title
+		};
 	}
 };
 </script>

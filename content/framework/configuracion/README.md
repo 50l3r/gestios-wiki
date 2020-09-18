@@ -10,7 +10,7 @@ Desde estos podremos configurar todo lo relacionado con el proyecto. Rutas, menu
 
 Este fichero nos permite definir el menu de navegación del panel de administración:
 
-<img src="/menu_cap.png" class="zoom" />
+<img src="/images/framework/menu_cap.png" medium-zoom />
 
 ``` js
 export default [
@@ -135,7 +135,7 @@ La configuración de estas se define en la documentación de [Vue Router](https:
 
 |Propiedad |Descripcion  |Tipo  |Necesario  |
 |---------|---------|---------|---------|
-|name | Nombre único de la página | ```String``` |<logo /> |
+|name | Nombre único de la página | ```String``` |<required /> |
 |path | Ruta de la página | ```String``` |<required /> |
 |redirect | Ruta de la página a redirigir <small>*(Si se precisa)*</small> | ```String``` | |
 |component| Componente que cargará la página | ```Componente``` | <required /> |

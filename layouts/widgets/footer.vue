@@ -4,6 +4,12 @@
 	</div>
 </template>
 
+<script>
+export default {
+	name: 'WikiFooter'
+};
+</script>
+
 <style lang="less" module>
 	.footer{
 		text-align: center;

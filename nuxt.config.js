@@ -8,20 +8,20 @@ export default {
 	** Nuxt target
 	** See https://nuxtjs.org/api/configuration-target
 	*/
-	target: 'server',
+	target: 'static',
 	/*
 	** Headers of the page
 	** See https://nuxtjs.org/api/configuration-head
 	*/
 	head: {
-		title: process.env.npm_package_name || '',
+		title: 'GestiOS Wiki',
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
 			{ hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
 		],
 		link: [
-			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+			{ rel: 'icon', type: 'image/png', href: '/images/logo/logo-white.png' },
 			{
 				rel: 'stylesheet',
 				href: 'https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=auto'
@@ -33,6 +33,21 @@ export default {
 			{
 				rel: 'stylesheet',
 				href: 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200;300;400;500;600;700&display=auto'
+			},
+			{
+				rel: 'stylesheet',
+				href: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.22.1/swagger-ui.css'
+			}
+		],
+		script: [
+			{
+				src: '//unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js'
+			},
+			{
+				src: '//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js'
+			},
+			{
+				src: '//code.tidio.co/0pgovuic0qslmyddjmvyb1kao3xolv4s.js'
 			}
 		]
 	},
@@ -47,11 +62,12 @@ export default {
 	** https://nuxtjs.org/guide/plugins
 	*/
 	plugins: [
-		'@/plugins/antd-ui',
-		'@/plugins/font-awesome',
-		'@/plugins/utils',
-		'@/plugins/badge',
-		'@/plugins/vue-debounce'
+		{ src: '@/plugins/antd-ui' },
+		{ src: '@/plugins/font-awesome' },
+		{ src: '@/plugins/utils' },
+		{ src: '@/plugins/badge' },
+		{ src: '@/plugins/vue-debounce' },
+		{ src: '@/plugins/medium-zoom', mode: 'client' }
 	],
 	/*
 	** Auto import components
@@ -87,7 +103,7 @@ export default {
 	content: {
 		dir: 'content',
 		liveEdit: false,
-		fullTextSearchFields: ['title', 'description'],
+		fullTextSearchFields: ['title'],
 		markdown: {
 			prism: {
 				theme: 'prism-themes/themes/prism-atom-dark.css'
@@ -147,5 +163,9 @@ export default {
 	loading: {
 		color: '#1b55e3',
 		height: '5px'
+	},
+
+	generate: {
+		fallback: '404.html'
 	}
 };

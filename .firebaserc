@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "gestios-acb9a": {
+      "hosting": {
+        "docs": [
+          "gestios-docs"
+        ]
+      }
+    }
+  }
+}

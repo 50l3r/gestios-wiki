@@ -1,25 +1,29 @@
 export default {
 	menu: {
 		framework: {
-			title: 'Framework',
-			icon: ['fab', 'vuejs']
+			title: '🚁 Framework',
+			url: '/framework',
+			disabled: false
 		},
 		sdk: {
-			title: 'SDK',
-			icon: ['fab', 'js-square']
+			title: '🛸 SDK',
+			url: '/sdk',
+			disabled: true
 		},
 		api: {
-			title: 'API',
-			icon: ['fad', 'rocket-launch']
-		}
-	},
-	routes: {
-		index: {
-			sidebar: false
+			title: '🚀 API',
+			url: '/api',
+			disabled: false
 		}
 	},
 	sidebars: {
 		framework: [
+			{
+				key: 'introduccion',
+				title: '👓 Introducción',
+				breadTitle: '🚁 Framework',
+				url: '/framework'
+			},
 			{
 				key: 'primeros-pasos',
 				title: '👶 Primeros pasos',
@@ -28,7 +32,13 @@ export default {
 			{
 				key: 'estructura-de-carpetas',
 				title: '📁 Estructura de carpetas',
-				url: '/framework/estructura-de-carpetas'
+				url: '/framework/estructura-de-carpetas',
+				pag: {
+					next: {
+						title: '⚡ Plugins',
+						url: '/framework/plugins/vistas'
+					}
+				}
 			},
 			{
 				key: 'plugins',
@@ -38,7 +48,13 @@ export default {
 					{
 						key: 'vistas',
 						title: '👀 Vistas',
-						url: '/framework/plugins/vistas'
+						url: '/framework/plugins/vistas',
+						pag: {
+							next: {
+								title: '🚀 GestiOS',
+								url: '/framework/plugins/gestios/informacion'
+							}
+						}
 					},
 					{
 						key: 'gestios',
@@ -141,6 +157,13 @@ export default {
 				key: 'configuracion',
 				title: '🔧 Configuración',
 				url: '/framework/configuracion'
+			}
+		],
+		api: [
+			{
+				key: 'aplicaciones',
+				title: '📦 Aplicaciones',
+				url: '#operations-tag-Aplicaciones'
 			}
 		]
 	}

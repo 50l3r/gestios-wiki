@@ -1,0 +1,1125 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "GestiOS API",
+        "description": "API oficial de GestiOS",
+        "contact": {
+            "name": "Calltek",
+            "url": "https://calltek.es",
+            "email": "sistemas@calltek.es"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://gestios.es/api/1/{project}",
+            "description": "GestiOS Producción",
+            "variables": {
+                "project": {
+                    "default": "dummy",
+                    "description": "Nombre del proyecto"
+                }
+            }
+        },
+        {
+            "url": "https://gestios.dev/api/1/{project}",
+            "description": "GestiOS Desarrollo",
+            "variables": {
+                "project": {
+                    "default": "dummy",
+                    "description": "Nombre del proyecto"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/apps": {
+            "get": {
+                "tags": [
+                    "Aplicaciones"
+                ],
+                "summary": "Listar aplicaciones",
+                "description": "Devuelve el listado de aplicaciones del proyecto a las que tengas acceso",
+                "operationId": "Gestios_apps::list_get",
+                "parameters": [
+                    {
+                        "name": "permalink",
+                        "in": "query",
+                        "description": "Nombre de aplicación. Si no se especifica se listaran todas",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado completo de las aplicaciones solicitadas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Application"
+                                    }
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Application"
+                                    },
+                                    "xml": {
+                                        "name": "xml"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron resultados para la consulta especificada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKey": []
+                    }
+                ]
+            }
+        },
+        "/app/{application}": {
+            "get": {
+                "tags": [
+                    "Aplicaciones"
+                ],
+                "summary": "Listar registros",
+                "description": "Devuelve el listado de los registros de la aplicación especificada",
+                "operationId": "Gestios_apps::index_get",
+                "parameters": [
+                    {
+                        "name": "application",
+                        "in": "path",
+                        "description": "Nombre de aplicación. Si no se especifica se listaran todas",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "cars"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página a consultar",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 2
+                    },
+                    {
+                        "name": "filters",
+                        "in": "query",
+                        "description": "<span id=\"filter-param\">Array de filtros para la búsqueda <a href=\"#model-Filters\">Ver</a></span>",
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "$ref": "#/components/schemas/Filters"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordenación de registros",
+                        "example": "[{\"_EntityId\": \"desc\"},{\"custom_field\": \"asc\"}]",
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Número de elementos a devolver",
+                        "schema": {
+                            "type": "number",
+                            "maximum": 100,
+                            "minimum": 1
+                        },
+                        "example": 20
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado de los registros solicitados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "properties": {
+                                        "total": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object",
+                                    "xml": {
+                                        "name": "xml"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontro el registro a modificar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKey": []
+                    }
+                ]
+            }
+        },
+        "/app/{application}/{id}": {
+            "post": {
+                "tags": [
+                    "Aplicaciones"
+                ],
+                "summary": "Añadir/Modificar registro",
+                "description": "Crea o edita un registro dentro de la aplicación especificada",
+                "operationId": "Gestios_apps::index_post",
+                "parameters": [
+                    {
+                        "name": "application",
+                        "in": "path",
+                        "description": "Nombre de aplicación",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "cars"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del registro. Si no se especifica se añadira uno nuevo",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 45
+                    }
+                ],
+                "requestBody": {
+                    "description": "Campos personalizados a tratar de la aplicación especificada. Si se envía el campo como <i>null</i> la información se borrará del mismo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "custom_field": {
+                                        "description": "Parámetro personalizado. Nombrado de forma distinta según el proyecto",
+                                        "type": "string",
+                                        "example": "Hyundai Coupe 1.6"
+                                    },
+                                    "custom_field2": {
+                                        "description": "Parámetro personalizado. Nombrado de forma distinta según el proyecto",
+                                        "type": "string",
+                                        "example": "2002-01-15"
+                                    },
+                                    "custom_field3": {
+                                        "description": "Parámetro personalizado. Nombrado de forma distinta según el proyecto",
+                                        "type": "string",
+                                        "example": "Hyundai"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Develve la informacion del registro modificado o añadido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object",
+                                    "xml": {
+                                        "name": "xml"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Algún parámetro especificado no tiene un formato válido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error400"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error400"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontro el registro a modificar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Aplicaciones"
+                ],
+                "summary": "Eliminar registro",
+                "description": "Elimina un registro dentro de la aplicación especificada",
+                "operationId": "Gestios_apps::index_delete",
+                "parameters": [
+                    {
+                        "name": "application",
+                        "in": "path",
+                        "description": "Nombre de aplicación",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "cars"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del registro",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 45
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Develve la informacion del registro eliminado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object",
+                                    "xml": {
+                                        "name": "xml"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontro el registro a modificar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKey": []
+                    }
+                ]
+            }
+        },
+        "/app/status/{application}/{id}": {
+            "post": {
+                "tags": [
+                    "Aplicaciones"
+                ],
+                "summary": "Cambiar estado de registro",
+                "description": "Modifica el estado del registro",
+                "operationId": "Gestios_apps::status_post",
+                "parameters": [
+                    {
+                        "name": "application",
+                        "in": "path",
+                        "description": "Nombre de aplicación",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "cars"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del registro",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 45
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Develve la informacion del registro concreto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object",
+                                    "xml": {
+                                        "name": "xml"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontro el registro a modificar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error404"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error401"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKey": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Application": {
+                "description": "Representa una aplicacion del proyecto",
+                "properties": {
+                    "ID": {
+                        "description": "Id único de la aplicación",
+                        "type": "string",
+                        "minimum": 1,
+                        "example": 1
+                    },
+                    "Name": {
+                        "description": "Nombre visuaL de la aplicación",
+                        "type": "string",
+                        "example": "Cars"
+                    },
+                    "NameSingular": {
+                        "description": "Nombre visual singular de la aplicación",
+                        "type": "string",
+                        "example": "Car"
+                    },
+                    "Permalink": {
+                        "description": "Nombre alfanumérico único de la aplicación",
+                        "type": "string",
+                        "example": "cars"
+                    },
+                    "ElementsPerPage": {
+                        "description": "Número de registros a mostrar por defecto al listar registros",
+                        "type": "string",
+                        "example": "20"
+                    },
+                    "Fields": {
+                        "description": "Campos de la aplicación",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Field"
+                        }
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Field": {
+                "description": "Representa una campo dentro de una aplicación",
+                "properties": {
+                    "ID": {
+                        "type": "string",
+                        "minimum": 1,
+                        "example": 1
+                    },
+                    "Name": {
+                        "type": "string",
+                        "example": "car_name"
+                    },
+                    "Type": {
+                        "type": "string",
+                        "enum": [
+                            "text",
+                            "number",
+                            "select",
+                            "double",
+                            "date",
+                            "datetime",
+                            "time",
+                            "email",
+                            "generated",
+                            "user",
+                            "relation",
+                            "media"
+                        ],
+                        "example": "text"
+                    },
+                    "Required": {
+                        "type": "boolean",
+                        "example": "cars"
+                    },
+                    "MaxLength": {
+                        "type": "string",
+                        "example": "50"
+                    },
+                    "Searchable": {
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "Placeholder": {
+                        "type": "string",
+                        "example": "Car name"
+                    },
+                    "Vars": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "Parser": {
+                        "type": "string",
+                        "example": "trim"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Comment": {
+                "description": "Representa un comentario de un registro",
+                "properties": {
+                    "_EntityId": {
+                        "type": "number",
+                        "minimum": 1,
+                        "example": 437
+                    },
+                    "_EntityCreateDate": {
+                        "type": "string",
+                        "example": "2020-08-07 19:22:40"
+                    },
+                    "_EntityCreateIp": {
+                        "type": "string",
+                        "example": "127.0.0.1"
+                    },
+                    "_EntityStatus": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "example": "1"
+                    },
+                    "_EntityCreateUser": {
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    },
+                    "Application": {
+                        "type": "string",
+                        "example": "empresas"
+                    },
+                    "Item": {
+                        "type": "number",
+                        "example": 214
+                    },
+                    "Text": {
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet :)"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Error404": {
+                "description": "El elemento o elementos a tratar no existen",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "No se encontraron resultados para el recurso especificado"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "xml"
+                },
+                "additionalProperties": false
+            },
+            "Error401": {
+                "description": "No se tiene acceso al recurso especificado",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Acceso no autorizado"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "xml"
+                },
+                "additionalProperties": false
+            },
+            "Error400": {
+                "description": "Los parámetros enviados son incorrectos",
+                "properties": {
+                    "error": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "El campo custom_field es Obligatorio"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "xml"
+                },
+                "additionalProperties": false
+            },
+            "Item": {
+                "description": "Representa un registro dentro de una aplicación.<br /><b>Los campos que empiezan con \"_\" son campos del sistema</b> y de solo lectura. El resto son campos de la propia aplicación.",
+                "properties": {
+                    "_EntityId": {
+                        "type": "number",
+                        "minimum": 1,
+                        "example": 437
+                    },
+                    "_EntityStatus": {
+                        "description": "Representa el estado del registro. Activado Desactivado.",
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "_EntityCreateDate": {
+                        "type": "string",
+                        "example": "2020-08-07 19:22:40"
+                    },
+                    "_EntityCreateUser": {
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    },
+                    "_EntityCreateIp": {
+                        "type": "string",
+                        "example": "127.0.0.1"
+                    },
+                    "_EntityUpdateDate": {
+                        "type": "string",
+                        "example": "2020-08-10 12:10:34"
+                    },
+                    "_EntityUpdateUser": {
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    },
+                    "_EntityUpdateIp": {
+                        "type": "string",
+                        "example": "127.0.0.1"
+                    },
+                    "_Comments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Comment"
+                        }
+                    },
+                    "custom_field": {
+                        "description": "Parámetro personalizado. Nombrado de forma distinta según el proyecto",
+                        "type": "string",
+                        "example": "Hyundai Coupe 1.6"
+                    },
+                    "custom_field2": {
+                        "description": "Parámetro personalizado. Nombrado de forma distinta según el proyecto",
+                        "type": "string",
+                        "example": "2002-01-15"
+                    },
+                    "custom_field3": {
+                        "description": "Parámetro personalizado. Nombrado de forma distinta según el proyecto",
+                        "type": "string",
+                        "example": "Hyundai"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Filters": {
+                "description": "Representa el parámetro <a href=\"#filter-param\"><code>filters</code></a> a la hora de listar items",
+                "required": [
+                    "_ParentOperator",
+                    "_Operator",
+                    "Fields"
+                ],
+                "properties": {
+                    "_ParentOperator": {
+                        "description": "Indica si se utilizará el operador AND u OR en los filtros de primer nivel",
+                        "type": "string",
+                        "enum": [
+                            "OR",
+                            "AND"
+                        ],
+                        "example": "OR"
+                    },
+                    "_Operator": {
+                        "description": "Indica si se utilizará el operador AND u OR en los filtros anidados",
+                        "type": "string",
+                        "enum": [
+                            "OR",
+                            "AND"
+                        ],
+                        "example": "OR"
+                    },
+                    "Fields": {
+                        "description": "Array con los campos por los que filtrar",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/FilterField"
+                        },
+                        "example": {
+                            "custom_field": {
+                                "type": "text",
+                                "value": "coupe",
+                                "lig": "%"
+                            }
+                        }
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "FilterField": {
+                "description": "Representa un campo dentro de un filtro de consulta",
+                "required": [
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Tipo de filtro a aplicar",
+                        "type": "string",
+                        "enum": [
+                            "text",
+                            "number",
+                            "select",
+                            "date",
+                            "relation"
+                        ],
+                        "example": "4"
+                    },
+                    "value": {
+                        "description": "Indica el valor del filtro",
+                        "type": "string",
+                        "example": "hyundai"
+                    },
+                    "lig": {
+                        "description": "Indica la comparación del filtro. Dependiendo del tipo de filtro seran accesibles unas comparaciones u otras.",
+                        "type": "string",
+                        "default": "=",
+                        "enum": [
+                            "=",
+                            ">=",
+                            "<=",
+                            "!=",
+                            "%"
+                        ],
+                        "example": "!="
+                    },
+                    "from": {
+                        "description": "Indica la fecha \"desde\" para el filtro fecha.",
+                        "type": "string",
+                        "default": "=",
+                        "example": "2002-01-01 00:00:00"
+                    },
+                    "to": {
+                        "description": "Indica la fecha \"hasta\" para el filtro fecha.",
+                        "type": "string",
+                        "default": "=",
+                        "example": "2002-01-01 00:00:00"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Media": {
+                "description": "Representa un fichero alojado en el proyecto",
+                "properties": {
+                    "_EntityId": {
+                        "type": "number",
+                        "minimum": 1,
+                        "example": 23
+                    },
+                    "_EntityCreateDate": {
+                        "type": "string",
+                        "example": "2020-09-15 12:03:42"
+                    },
+                    "_EntityCreateIp": {
+                        "type": "string",
+                        "example": "127.0.0.1"
+                    },
+                    "_EntityCreateUser": {
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ]
+                    },
+                    "File": {
+                        "type": "string",
+                        "example": "invoices/factura_123.pdf"
+                    },
+                    "Name": {
+                        "type": "string",
+                        "example": "factura_123.pdf"
+                    },
+                    "Ext": {
+                        "type": "string",
+                        "example": "jpg"
+                    },
+                    "Mimetype": {
+                        "type": "string",
+                        "example": "image/jpeg"
+                    },
+                    "Size": {
+                        "type": "number",
+                        "format": "double",
+                        "example": "24.33"
+                    },
+                    "Token": {
+                        "type": "string",
+                        "example": "db9fce553d6a430b1d0b67ea5a9b12e75309feaa6b0d99c0adb73f9b011654aa02145d2c1659bfd9e7b5df14af3e9b9d9a249bd92d659969a8fd2c898b6c1462c35a0f614476"
+                    },
+                    "Vars": {
+                        "type": "object"
+                    },
+                    "Link": {
+                        "type": "string",
+                        "example": "http://gestios.tk/api/1/calltek/media/1/db9fce553d6a430b1d0b67ea5a9b12e75309feaa6b0d99c0adb73f9b011654aa02145d2c1659bfd9e7b5df14af3e9b9d9a249bd92d659969a8fd2c898b6c1462c35a0f614476"
+                    },
+                    "Versions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MediaVersion"
+                        }
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "MediaVars": {
+                "description": "Representa ciertos parámetros de un fichero",
+                "properties": {
+                    "Width": {
+                        "type": "number",
+                        "example": 800
+                    },
+                    "Height": {
+                        "type": "number",
+                        "example": 600
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "MediaVersion": {
+                "description": "Representa una version especifica de un fichero",
+                "properties": {
+                    "ID": {
+                        "type": "string",
+                        "example": "XLxOUd3ovIPVJVYc6rytlzgywJVyJ.8v"
+                    },
+                    "Size": {
+                        "type": "number",
+                        "format": "double",
+                        "example": "24.33"
+                    },
+                    "Date": {
+                        "type": "string",
+                        "example": "2020-09-15 12:03:44"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "User": {
+                "description": "Representa un usuario dentro del proyecto",
+                "properties": {
+                    "ID": {
+                        "type": "number",
+                        "minimum": 1,
+                        "example": 7
+                    },
+                    "Nick": {
+                        "type": "string",
+                        "example": "jhondoe"
+                    },
+                    "Name": {
+                        "type": "string",
+                        "example": "Jhon Doe"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "example": "jhon@doe.com"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {
+            "ApiKey": {
+                "type": "apiKey",
+                "description": "Autenticación base",
+                "name": "X-API-KEY",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKey": []
+        }
+    ],
+    "externalDocs": {
+        "description": "GestiOS Wiki",
+        "url": "https://wiki.gestios.es"
+    }
+}

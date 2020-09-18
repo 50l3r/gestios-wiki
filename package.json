@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
+    "build": "nuxt build && nuxt generate",
     "start": "nuxt start",
-    "generate": "nuxt generate",
     "lint:js": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "lint": "npm run lint:js"
+    "lint": "npm run lint:js",
+    "deploy": "firebase deploy"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -22,6 +22,7 @@
     "@nuxtjs/axios": "^5.12.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "ant-design-vue": "^1.6.4",
+    "medium-zoom": "^1.0.6",
     "nuxt": "^2.14.0",
     "prism-themes": "^1.4.0",
     "remark-autolink-headings": "^6.0.1",
